@@ -1,32 +1,35 @@
 package com.bensimpson.sprint2.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-
 @Entity
-@Table(name="users")
-public class Todo {
-
+@Table(name = "todos")
+public class Todos extends Auditor{
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long todoid;
+    @Column(nullable = false)
     private String description;
-    private boolean completed;
+    private boolean completed = false;
 
     @ManyToOne
-    @JoinColumn(name = "userid",nullable = false)
+    @JoinColumn(name = "userid")
+    @JsonIgnoreProperties("todos")
     private User user;
 
-    public Todo() {
+    public Todos() {
     }
 
-    public Todo(String description, boolean completed, User user) {
+    public Todos(String description, User user) {
         this.description = description;
-        this.completed = completed;
         this.user = user;
+    }
+
+    public Todos(String description) {
+        this.description = description;
     }
 
     public long getTodoid() {
@@ -61,13 +64,4 @@ public class Todo {
         this.user = user;
     }
 
-    @Override
-    public String toString() {
-        return "Todo{" +
-                "todoid=" + todoid +
-                ", description='" + description + '\'' +
-                ", completed=" + completed +
-                ", user=" + user +
-                '}';
-    }
 }
