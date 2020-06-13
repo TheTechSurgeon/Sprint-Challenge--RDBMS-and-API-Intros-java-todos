@@ -40,11 +40,10 @@ public class UserServiceImpl implements UserService{
         User newUser = new User();
 
         // PUT
-        if (user.getUserid() != 0) {
             userRepository.findById(user.getUserid()).orElseThrow(() -> new EntityNotFoundException(user.getUserid() + " not found for PUT request"));
 
             newUser.setUserid(user.getUserid());
-        }
+
 
 
         newUser.setUsername(user.getUsername());
